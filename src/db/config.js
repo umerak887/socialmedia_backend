@@ -1,10 +1,17 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize("postgres", "postgres", "admin", {
-  host: "localhost",
-  port: 5432,
-  dialect: "postgres",
-});
+const env = process.env;
+
+const sequelize = new Sequelize(
+  env.DB_NAME,
+  env.DB_USER_NAME,
+  env.DB_PASSWORD,
+  {
+    host: env.DB_HOST,
+    port: env.DB_PORT,
+    dialect: env.DB_DIALECT,
+  }
+);
 
 export const dbConnect = async () => {
   try {
