@@ -13,15 +13,11 @@ const userValidator = {
       });
       const { error, value } = schema.validate(body);
       if (error) {
-        return res
-          .status(400)
-          .json({ error, msg: "something went wrong with validation" });
+        return res.status(400).json({ error, msg: "something went wrong" });
       }
       next();
     } catch (error) {
-      return res
-        .status(400)
-        .json({ error, msg: "something went wrong with validation2" });
+      return res.status(400).json({ error, msg: "something went wrong" });
     }
   },
 };
