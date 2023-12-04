@@ -1,13 +1,15 @@
 import { Router } from "express";
-import userController from "../../controller/user/index.js";
 import userValidator from "../../validators/user/index.js";
+import AuthController from "../../controller/auth/index.js";
 
 const userRouter = Router();
 
-userRouter.post("/", userValidator.create, userController.create);
-userRouter.get("/", userController.getAll);
-userRouter.get("/single_user/:userId", userController.getOne);
-userRouter.put("/update_user/:userId", userController.update);
-userRouter.delete("/delete_user/:userId", userController.delete);
+userRouter.post("/register", userValidator.register, AuthController.register);
+userRouter.post(
+  "/login",
+  userValidator.login,
+  userValidator.login,
+  AuthController.login
+);
 
 export default userRouter;

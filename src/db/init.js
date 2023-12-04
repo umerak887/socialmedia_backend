@@ -7,22 +7,18 @@ const dbInit = async () => {
   postModel.sync({
     alter: true,
     force: false,
-    logging: false,
   });
   userModel.sync({
     alter: true,
     force: false,
-    logging: false,
   });
   commentModel.sync({
     alter: true,
     force: false,
-    logging: false,
   });
   followerModel.sync({
     alter: true,
     force: false,
-    logging: false,
   });
 };
 
