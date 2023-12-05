@@ -10,7 +10,6 @@ import SequelizeStore from "connect-session-sequelize";
 const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
-app.use("/", allRoutes);
 
 dbConnect();
 
@@ -34,6 +33,7 @@ dbInit()
   .then(console.log("DB Synced"))
   .catch((error) => console.log("something went wrong", error));
 
+app.use("/", allRoutes);
 app.listen(PORT, (error) => {
   if (!error) {
     console.log(`http://localhost:${PORT}`);

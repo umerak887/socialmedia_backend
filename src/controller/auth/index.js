@@ -56,12 +56,15 @@ const AuthController = {
         id: user.id,
         email,
       };
-      const token = await jwt.sign(payload, process.env.JWT_SECRET);
+      const token = await jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "14d",
+      });
 
       //this peace of course does not work
-      //   req.session.token = token;
-      //   req.session.user = payload;
-      //   req.session.save();
+      req.session.token = token;
+      req.session.user = payload;
+      req.session.save();
+      console.log(req.session);
 
       LoginEmail({
         from: "umerak877@gmail.com",
@@ -71,11 +74,12 @@ const AuthController = {
       });
 
       return res.status(200).json({
-        user,
+        payload,
         token,
         msg: "User login successfuly",
       });
     } catch (error) {
+      console.log(error);
       return res.status(400).json({ error: "Something went wrong" });
     }
   },

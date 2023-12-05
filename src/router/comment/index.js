@@ -9,6 +9,7 @@ commentRouter.get(
   "/users/:userId/post/:postId/comment/:commentId",
   commentController.getOne
 );
+
 commentRouter.put(
   "/user/:userId/post/:postId/update_comment/:commentId",
   commentController.update
