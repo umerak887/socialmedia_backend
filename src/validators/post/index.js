@@ -5,7 +5,7 @@ const PostValidator = {
     try {
       const body = req.body;
       const schema = Joi.object({
-        author: Joi.string().min(3).max(10).required(),
+        // author: Joi.string().min(3).max(10).required(),
         content: Joi.string().min(3).max(300).required(),
       });
       const { error, value } = schema.validate(body);

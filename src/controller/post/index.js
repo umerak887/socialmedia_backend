@@ -5,6 +5,7 @@ const postController = {
   create: async (req, res) => {
     try {
       const userId = req.params.userId;
+      req.headers.authorization = req.session.token;
       const user = await userModel.findByPk(userId);
       if (!user) {
         return res.status(404).status({ error: " User does not exist" });
