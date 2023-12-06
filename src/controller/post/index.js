@@ -4,9 +4,8 @@ import userModel from "../../model/user/user.js";
 const postController = {
   create: async (req, res) => {
     try {
-      const userId = req.params.userId;
-      req.headers.authorization = req.session.token;
-      const user = await userModel.findByPk(userId);
+      const id = req.session.user.id;
+      const user = await userModel.findByPk(Id);
       if (!user) {
         return res.status(404).status({ error: " User does not exist" });
       }
@@ -14,7 +13,7 @@ const postController = {
       const post = await postModel.create({
         author: user.name,
         content,
-        userId,
+        userId: id,
       });
       return res.status(201).json(post);
     } catch (error) {
@@ -23,12 +22,12 @@ const postController = {
   },
   likePost: async (req, res) => {
     try {
-      const userId = req.params.userId;
+      const id = req.session.user.id;
       const postId = req.params.postId;
       const post = await postModel.findOne({
         where: {
           id: postId,
-          userId: userId,
+          userId: id,
         },
       });
       if (!post) {
@@ -43,8 +42,12 @@ const postController = {
   },
   getAll: async (req, res) => {
     try {
+      const id = req.session.user.id;
       const posts = await postModel.findAll({
-        include: [userModel],
+        // include: [userModel],
+        where: {
+          userId: id,
+        },
       });
       return res.status(200).json(posts);
     } catch (error) {
@@ -52,12 +55,12 @@ const postController = {
     }
   },
   getOne: async (req, res) => {
-    const userId = req.params.userId;
+    const id = req.session.user.id;
     const postId = req.params.postId;
     const post = await postModel.findOne({
       where: {
         id: postId,
-        userId: userId,
+        userId: id,
       },
     });
     if (!post) {
@@ -67,10 +70,10 @@ const postController = {
   },
   update: async (req, res) => {
     try {
-      const userId = req.params.userId;
+      const id = req.session.user.id;
       const postId = req.params.postId;
       const post = await postModel.findOne({
-        where: { id: postId, userId },
+        where: { id: postId, userId: id },
       });
       if (!post) {
         return res.status(404).json({ error: "no such post found" });
@@ -79,7 +82,7 @@ const postController = {
         content,
         where: {
           id: postId,
-          userId: userId,
+          userId: id,
         },
       });
       return res.status(202).json(updatedPost);
@@ -89,12 +92,12 @@ const postController = {
   },
   delete: async (req, res) => {
     try {
-      const userId = req.params.userId;
+      const id = req.session.user.id;
       const postId = req.params.postId;
       const post = await postModel.findOne({
         where: {
           id: postId,
-          userId,
+          userId: id,
         },
       });
       if (!post) {

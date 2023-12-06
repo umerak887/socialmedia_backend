@@ -5,10 +5,10 @@ import userModel from "../../model/user/user.js";
 const commentController = {
   create: async (req, res) => {
     try {
-      const userId = req.params.userId;
+      const id = req.session.user.id;
       const postId = req.params.postId;
       const content = req.body;
-      const user = await userModel.findByPk(userId);
+      const user = await userModel.findByPk(id);
       if (!user) {
         return res.status(404).json({ error: "user not found" });
       }
@@ -19,7 +19,7 @@ const commentController = {
       const comment = await commentModel.create({
         content,
         author: user.name,
-        userId,
+        userId: id,
         postId,
       });
       return res.status(201).json(comment);
@@ -29,8 +29,12 @@ const commentController = {
   },
   getAll: async (req, res) => {
     try {
+      const id = req.session.user.id;
       const comments = await commentModel.findAll({
-        include: [userModel, postModel],
+        where: {
+          userId: id,
+        },
+        // include: [userModel, postModel],
       });
       return res.status(200).json(comments);
     } catch (error) {
@@ -39,12 +43,13 @@ const commentController = {
   },
   getOne: async (req, res) => {
     try {
-      const { userId, postId, commentId } = req.params;
+      const id = req.session.user.id;
+      const { postId, commentId } = req.params;
       const comment = await commentModel.findOne({
         where: {
           id: commentId,
           postId,
-          userId,
+          userId: id,
         },
       });
       if (!comment) {
@@ -57,12 +62,13 @@ const commentController = {
   },
   update: async (req, res) => {
     try {
-      const { userId, postId, commentId } = req.params;
+      const id = req.session.user.id;
+      const { postId, commentId } = req.params;
       const { content } = req.body;
       const comment = await commentModel.findOne({
         where: {
           id: commentId,
-          userId,
+          userId: id,
           postId,
         },
       });

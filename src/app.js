@@ -10,7 +10,7 @@ import SequelizeStore from "connect-session-sequelize";
 const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
-
+const env = process.env;
 dbConnect();
 
 const sequelizeStore = new SequelizeStore(Session.Store);
@@ -20,7 +20,7 @@ const mySequelizeStore = new sequelizeStore({
 
 app.use(
   Session({
-    secret: process.env.SESSION_SECRET,
+    secret: env.SESSION_SECRET,
     store: mySequelizeStore,
     saveUninitialized: false,
     resave: true,

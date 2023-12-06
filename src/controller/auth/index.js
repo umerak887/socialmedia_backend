@@ -3,11 +3,13 @@ import userModel from "../../model/user/user.js";
 import jwt from "jsonwebtoken";
 import RegisterEmail from "../../email/register.js";
 import LoginEmail from "../../email/login.js";
+import cloudinary from "../../middleware/cloud.js";
 
 const AuthController = {
   register: async (req, res) => {
     try {
       const { name, email, password } = req.body;
+      const file = req.file;
       const user = await userModel.findOne({
         where: {
           email,
@@ -19,10 +21,14 @@ const AuthController = {
           .json({ msg: "Accout with this email already exist" });
       }
       const hPassword = await hash(password, 10);
+      const result = await cloudinary.uploader.upload(file.buffer, {
+        resource_type: "auto",
+      });
       await userModel.create({
         name,
         email,
         password: hPassword,
+        image: result.url,
       });
       RegisterEmail({
         from: "umerak877@gmail.com",
