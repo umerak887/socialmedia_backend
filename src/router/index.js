@@ -9,7 +9,7 @@ const allRoutes = Router();
 
 allRoutes.use("/users", userRouter);
 allRoutes.use("/posts", AuthenticateMiddleware, postRouter);
-allRoutes.use("/comments", commentRouter);
-allRoutes.use("/follower", followerRouter);
+allRoutes.use("/comments", AuthenticateMiddleware, commentRouter);
+allRoutes.use("/follower", AuthenticateMiddleware, followerRouter);
 
 export default allRoutes;
