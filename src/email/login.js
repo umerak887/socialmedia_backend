@@ -1,4 +1,4 @@
-import transporter from "../controller/config/emailConfig.js";
+import transporter from "../config/emailConfig.js";
 
 const LoginEmail = async (params) => {
   const { from, to, subject, text } = params;
