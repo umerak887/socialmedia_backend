@@ -7,10 +7,10 @@ import sequelize from "./db/config.js";
 import Session from "express-session";
 import SequelizeStore from "connect-session-sequelize";
 
+const env = process.env;
 const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
-const env = process.env;
 dbConnect();
 
 const sequelizeStore = new SequelizeStore(Session.Store);

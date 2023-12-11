@@ -1,15 +1,4 @@
-import nodemailer from "nodemailer";
-
-const env = process.env;
-
-var transporter = nodemailer.createTransport({
-  host: env.EMAIL_HOST,
-  port: env.EMAIL_PORT,
-  auth: {
-    user: env.EMAIL_USER, // place your user
-    pass: env.EMAIL_PASS, // place user's password
-  },
-});
+import transporter from "../controller/config/emailConfig.js";
 
 const RegisterEmail = async (params) => {
   const { from, to, subject, text } = params;
